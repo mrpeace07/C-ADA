@@ -59,7 +59,7 @@ int main()
         printf("%d\t", a[k]);
 
     ts = (double)(et - st) / CLOCKS_PER_SEC;
-    printf("\nThe time taken is %f seconds\n", ts);
+    printf("\nThe time taken is %e seconds\n", ts);
 
     return 0;
 }
