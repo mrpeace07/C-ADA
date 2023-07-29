@@ -37,7 +37,7 @@ int main()
     int cost[10][10], i, j, n;
     printf("\nEnter the number of vertices : ");
     scanf("%d", &n);
-    printf("\nEnter the cost matrix : \n");
+    printf("\nEnter the cost matrix (0 for self loop 999 for no direct edge): \n");
     for (i = 1; i <= n; i++)
         for (j = 1; j <= n; j++)
             scanf("%d", &cost[i][j]);
