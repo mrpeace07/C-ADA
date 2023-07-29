@@ -4,9 +4,9 @@ int a, b, u, v, n, i, j, ne = 1;
 int visited[10] = {0}, min, mincost = 0, cost[10][10];
 int main()
 {
-    printf("\n Enter the number of nodes:");
+    printf("\n Enter the number of vertices:");
     scanf("%d", &n);
-    printf("\n Enter the adjacency matrix:\n");
+    printf("\n Enter the adjacency matrix(0 for self loop 999 for no direct edge):\n");
     for (i = 1; i <= n; i++)
         for (j = 1; j <= n; j++)
         {
