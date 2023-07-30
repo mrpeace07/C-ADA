@@ -40,7 +40,7 @@ void topology()
     }
     printf("The topological Sequence is:\n");
     for (i = 0; i < n; i++)
-        printf("%d ", t[i] + 1); // Add 1 to the index to get the original job number
+        printf("%d ", t[i] + 1);
 }
 
 int main()
