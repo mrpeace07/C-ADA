@@ -1,6 +1,7 @@
 #include <stdio.h>
+#define MAX 10
 
-int p[50], w[50], n;
+int knap[MAX][MAX];
 
 int max(int a, int b)
 {
@@ -10,30 +11,58 @@ int max(int a, int b)
         return b;
 }
 
-int knapsack(int i, int m)
+int knapsack(int items, int capacity, int profit[], int weight[])
 {
-    if (i == n)
-        return (w[n] > m) ? 0 : p[n];
-    if (w[i] > m)
-        return knapsack(i + 1, m);
-    return max(knapsack(i + 1, m), knapsack(i + 1, m - w[i]) + p[i]);
+    int i, j;
+
+    for (i = 0; i <= items; i++)
+    {
+        for (j = 0; j <= capacity; j++)
+        {
+            knap[i][j] = 0;
+        }
+    }
+
+    for (i = 1; i <= items; i++)
+    {
+        for (j = 1; j <= capacity; j++)
+        {
+            if (weight[i] <= j)
+            {
+                knap[i][j] = max(knap[i - 1][j], profit[i] + knap[i - 1][j - weight[i]]);
+            }
+            else
+            {
+                knap[i][j] = knap[i - 1][j];
+            }
+        }
+    }
+    return knap[items][capacity];
 }
 
 int main()
 {
-    int m, i, optsoln;
-    printf("Enter no. of objects: ");
-    scanf("%d", &n);
-    printf("\nEnter the weights:\n");
-    for (i = 1; i <= n; i++)
-        scanf("%d", &w[i]);
-    printf("\nEnter the profits:\n");
-    for (i = 1; i <= n; i++)
-        scanf("%d", &p[i]);
-    printf("\nEnter the knapsack capacity:");
-    scanf("%d", &m);
-    optsoln = knapsack(1, m);
-    printf("\nThe optimal solution is: %d\n", optsoln);
-
+    int i, j, n, items, capacity, profit[MAX], weight[MAX], optimum_val;
+    printf("Enter No. of objects: ");
+    scanf("%d", &items);
+    printf("Enter the Weights: ");
+    for (i = 1; i <= items; i++)
+        scanf("%d", &weight[i]);
+    printf("Enter the Profits: ");
+    for (i = 1; i <= items; i++)
+        scanf("%d", &profit[i]);
+    printf("Enter the Knapsack Capacity: ");
+    scanf("%d", &capacity);
+    optimum_val = knapsack(items, capacity, profit, weight);
+    printf("Profit Table\n");
+    for (i = 0; i <= items; i++)
+    {
+        for (j = 0; j <= capacity; j++)
+        {
+            printf("%d\t", knap[i][j]);
+        }
+        printf("\n");
+    }
+    printf("The Maximum Profit is: %d\n", optimum_val);
     return 0;
 }
