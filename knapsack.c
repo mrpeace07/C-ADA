@@ -1,68 +1,64 @@
 #include <stdio.h>
-#define MAX 10
-
-int knap[MAX][MAX];
 
 int max(int a, int b)
 {
-    if (a > b)
-        return a;
-    else
-        return b;
+    return (a > b) ? a : b;
 }
 
-int knapsack(int items, int capacity, int profit[], int weight[])
+void knapSack(int W, int wt[], int val[], int n)
 {
-    int i, j;
-
-    for (i = 0; i <= items; i++)
+    int dp[n + 1][W + 1];
+    for (int i = 0; i <= n; i++)
     {
-        for (j = 0; j <= capacity; j++)
+        for (int j = 0; j <= W; j++)
         {
-            knap[i][j] = 0;
-        }
-    }
-
-    for (i = 1; i <= items; i++)
-    {
-        for (j = 1; j <= capacity; j++)
-        {
-            if (weight[i] <= j)
+            if (i == 0 || j == 0)
             {
-                knap[i][j] = max(knap[i - 1][j], profit[i] + knap[i - 1][j - weight[i]]);
+                dp[i][j] = 0;
+            }
+            else if (wt[i - 1] <= j)
+            {
+                dp[i][j] = max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
             }
             else
             {
-                knap[i][j] = knap[i - 1][j];
+                dp[i][j] = dp[i - 1][j];
             }
         }
     }
-    return knap[items][capacity];
+
+    for (int i = 0; i <= n; i++)
+    {
+        for (int j = 0; j <= W; j++)
+            printf("%d ", dp[i][j]);
+        printf("\n");
+    }
+
+    int i = n, j = W;
+    while (i > 0 && j > 0)
+    {
+        if (dp[i][j] == dp[i - 1][j])
+        {
+            printf("OBJECT %d = 0\n", i--);
+        }
+        else
+        {
+            printf("OBJECT %d = 1\n", i--);
+            j = j - wt[i];
+        }
+    }
+    printf("the total profit is %d\n", dp[n][W]);
 }
 
 int main()
 {
-    int i, j, n, items, capacity, profit[MAX], weight[MAX], optimum_val;
-    printf("Enter No. of objects: ");
-    scanf("%d", &items);
-    printf("Enter the Weights: ");
-    for (i = 1; i <= items; i++)
-        scanf("%d", &weight[i]);
-    printf("Enter the Profits: ");
-    for (i = 1; i <= items; i++)
-        scanf("%d", &profit[i]);
-    printf("Enter the Knapsack Capacity: ");
-    scanf("%d", &capacity);
-    optimum_val = knapsack(items, capacity, profit, weight);
-    printf("Profit Table\n");
-    for (i = 0; i <= items; i++)
-    {
-        for (j = 0; j <= capacity; j++)
-        {
-            printf("%d\t", knap[i][j]);
-        }
-        printf("\n");
-    }
-    printf("The Maximum Profit is: %d\n", optimum_val);
+    int val[10], wt[10], n, W;
+    printf("Enter number of objects and cap:\t");
+    scanf("%d %d", &n, &W);
+    printf("Enter value and weight for each:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d %d", &val[i], &wt[i]);
+    knapSack(W, wt, val, n);
+    
     return 0;
 }
