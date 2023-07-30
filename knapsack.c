@@ -2,7 +2,11 @@
 
 int max(int a, int b)
 {
-    return (a > b) ? a : b;
+
+    if (a > b)
+        return a;
+    else
+        return b;
 }
 
 void knapSack(int W, int wt[], int val[], int n)
@@ -59,6 +63,6 @@ int main()
     for (int i = 0; i < n; i++)
         scanf("%d %d", &val[i], &wt[i]);
     knapSack(W, wt, val, n);
-    
+
     return 0;
 }
